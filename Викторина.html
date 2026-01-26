@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="style.css">
+	<title>Проектная работа</title>
+</head>
+<body>
+	<!-- Верхняя панель-->
+	<div class="navbar">
+		<div class="left-links">
+			<a href="index.html" class="nav-link">Главная страница</a>
+			<a href="Интересные%20факты.html" class="nav-link">Интересные факты</a>
+			<a href="Карта%20памятников.html" class="nav-link">Карта памятников</a>
+		</div>
+		<div class="right-links">
+			<img src="KML logo.jpeg" style="width: auto; height: 50px" class="nav-link">
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<!-- Кнопка для перезапуска викторины -->
+
+
+	<div class="content" id="startScreen">
+		<h1>Викторина</h1>
+		<p>Ответьте на следующие вопросы по теме Калининградской области, чтобы проверить свои знания!</p>
+		<p>*Все вопросы составлялись по данным 2024 года</p>
+		<button class="button" onclick="startGame()">Начать викторину</button>
+	</div>
+
+	<!-- Основной контент -->
+
+    <div class="content" id="gameContainer">
+
+        <h1 id="question-num"></h1>
+        <p id="question"></p>
+
+        <div id="images_for_7" class="image-container">
+            <img src="1.png" width="100" height="150">
+            <img src="2.png" width="100" height="150">
+            <img src="3.png" width="100" height="150">
+        </div>
+        <div class="answers" id="answers">
+            <button class="button" onclick="checkAnswer(0)">Вариант 1</button>
+            <button class="button" onclick="checkAnswer(1)">Вариант 2</button>
+            <button class="button" onclick="checkAnswer(2)">Вариант 3</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="next-button" id="nextButton">
+            <button class="button" onclick="nextQuestion()">Продолжить</button>
+        </div>
+    </div>
+
+	<div class="content" id="EndScreen">
+		<h1>Игра завершена, спасибо за участние!</h1>
+		<p id="right_answers"></p>
+	</div>
+
+	<script>
+
+		document.getElementById("gameContainer").style.display = "none";
+		document.getElementById("EndScreen").style.display = "none";
+
+		// Массив вопросов и ответов
+
+		const questions = [
+			{ text: "Сколько городов в Калининградской области?", correct: 0 },
+			{ text: "Какая площадь у Калининградской области?", correct: 2 },
+			{ text: "Какое население Калининградской области?", correct: 2 },
+			{ text: "В каком году Куршскую Косу признали национальным парком?", correct: 0 },
+			{ text: "Сколько немецких фортов в Калининградской области?", correct: 1 },
+			{ text: "В каком городе находится карьер по добыче янтаря?", correct: 0 },
+			{ text: "Какой герб у Калининградской области?", correct: 0 },
+            { text: "Какой философ является одним из символов Калининградской области?", correct: 1 },
+            { text: "Какая длина Куршской Косы?", correct: 2 },
+            { text: "Сколько заливов в Калининградской области?", correct: 1 }
+
+		];
+
+		const answers = [
+			["22", "31", "16"],
+			["7 000 км²", "40 000 км²", "15 100 км²"],
+			["1 800 000 человек", "60 000 человек", "1 100 000 человек"],
+			["1987", "2003", "1993"],
+			["21", "15", "8"],
+			["Янтарный", "Балтийск", "Советск"],
+			["1", "2", "3"],
+            ["Карл Маркс", "Иммануил Кант", "Юрген Хабермас"],
+            ["160 км", "52 км", "98 км"],
+            ["3", "2", "5"]
+		];
+
+		let currentIndex = 0;
+		let rightAnswers = 0;
+
+		function startGame() {
+			document.getElementById("startScreen").style.display = "none";
+			document.getElementById("gameContainer").style.display = "block";
+			loadQuestion();
+		}
+
+		function loadQuestion() {
+			document.getElementById("question-num").textContent = `Вопрос ${currentIndex + 1}`;
+			document.getElementById("question").textContent = questions[currentIndex].text;
+			const buttons = document.querySelectorAll(".answers button");
+			document.getElementById("images_for_7").style.display = "none";
+			if (currentIndex === 6) { document.getElementById("images_for_7").style.display = "block" }
+
+			buttons.forEach((btn, index) => {
+				btn.textContent = answers[currentIndex][index]
+				btn.disabled = false;
+			});
+			document.getElementById("result").textContent = "";
+			document.getElementById("nextButton").style.display = "none";
+		}
+
+		function checkAnswer(selectedIndex) {
+
+			const resultDiv = document.getElementById("result");
+			if (selectedIndex === questions[currentIndex].correct) {
+				resultDiv.textContent = "Правильно!";
+				resultDiv.style.color = "green";
+				rightAnswers++;
+			} else {
+				resultDiv.textContent = `Неправильно! Ответ - ${answers[currentIndex][questions[currentIndex].correct]}`
+				resultDiv.style.color = "red";
+			}
+			document.querySelectorAll(".answers button").forEach(btn => btn.disabled = true);
+			document.getElementById("nextButton").style.display = "block";
+			document.getElementById("answers").style.display = "none";
+		}
+
+		function nextQuestion() {
+			currentIndex++;
+			if (currentIndex < questions.length) {
+				document.getElementById("answers").style.display = "block";
+				loadQuestion();
+			} else {
+				document.getElementById("EndScreen").style.display = "block";
+				document.getElementById("gameContainer").style.display = "none";
+				let right_answers_word = "a"
+				if (rightAnswers === 0) { right_answers_word = "правильных ответов" }
+				else if (rightAnswers === 1) { right_answers_word = "правильный ответ" }
+				else if (rightAnswers < 5) { right_answers_word = "правильных ответа" }
+				if (4 < rightAnswers) { right_answers_word = "правильных ответов" }
+				document.getElementById("right_answers").textContent = "Вы ответили на " + rightAnswers + " " + right_answers_word + " из 10";
+			}
+		}
+
+		// Загрузка первой панорамы при открытии
+		loadQuestion();
+	</script>
+</body>
+</html>

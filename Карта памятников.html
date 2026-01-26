@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>	
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="style.css">
+	<title>Проектная работа</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная карта с точками</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        #map {
+            flex: 3;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+        }
+        
+        .points-panel {
+            flex: 1;
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            max-width: 320px;
+            overflow-y: auto;
+        }
+        
+        .points-panel h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .points-list {
+            list-style: none;
+        }
+        
+        .point-item {
+            padding: 15px;
+            margin-bottom: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .point-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .point-item.active {
+            background-color: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        
+        .point-title {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+        
+        .point-coords {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFade 0.3s ease-out;
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #1e3c72;
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #666;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .close-modal:hover {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .modal-body {
+            padding: 25px 30px;
+            line-height: 1.6;
+            color: #444;
+        }
+        
+        .modal-body p {
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            background-color: #f0f0f0;
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .points-panel {
+                max-width: 100%;
+            }
+            
+            #map {
+                height: 60vh;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Верхняя панель-->
+	<div class="navbar">
+		<div class="left-links">
+			<a href="index.html" class="nav-link">Главная страница</a>
+			<a href="Интересные%20факты.html" class="nav-link">Интересные факты</a>
+			<a href="Карта%20памятников.html" class="nav-link">Карта памятников</a>
+		</div>
+		<div class="right-links">
+			<img src="KML logo.jpeg" style="width: auto; height: 50px" class="nav-link">
+		</div>
+	</div>
+    
+    <div class="container">
+        <div id="map"></div>
+        
+        <div class="points-panel">
+            <h2>Точки на карте</h2>
+            <ul class="points-list" id="points-list">
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для отображения описания точки -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Название точки</h2>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Используется библиотека Leaflet для отображения карт</p>
+    </footer>
+
+    <script>
+        
+        const map = L.map('map').setView([54.738, 21.028], 8.4);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Массив с данными о точках (координаты, названия, описания)
+        const points = [
+            {
+                id: 1,
+                name: "Захоронение Скаруллен",
+                lat: 54.614002,
+                lng: 22.636029,
+                description: ""
+            },
+            {
+                id: 2,
+                name: "Памятник на кладбище рядом с бывшим немецким посёлком Вальдаукадель в Нестеровском районе",
+                lat: 54.733056,
+                lng: 19.999722,
+                description: ""
+            },
+            {
+                id: 3,
+                name: "Захоронение русских и немецких воинов, погибших в ноябре 1914 — феврале 1915 годов",
+                lat: 54.94997,
+                lng: 22.48997,
+                description: ""
+            },
+            {
+                id: 4,
+                name: "Памятник героям Первой мировой войны",
+                lat: 54.7127108513002,
+                lng: 20.4906815245991,
+                description: ""
+            },
+            {
+                id: 5,
+                name: "Памятник воинам инженерных частей, погибшим в годы Первой мировой войны",
+                lat: 54.721142,
+                lng: 20.548027,
+                description: ""
+            },
+            {
+                id: 6,
+                name: "памятник погибшим в годы Первой мировой войны 1914–1918 годов",
+                lat: 54.502416,
+                lng: 20.096347,
+                description: ""
+            },
+            {
+                id: 7,
+                name: "Памятник «Штыковая атака»",
+                lat: 54.58975362342157,
+                lng: 22.20277269999999,
+                description: ""
+            },
+            {
+                id: 8,
+                name: "Сквер памяти ротмистра В. Б. Бушнёва",
+                lat: 54.94712550898284,
+                lng: 22.49254155047147,
+                description: ""
+            },
+            {
+                id: 9,
+                name: "Памятник павшим воинам 8-го уланского полка",
+                lat: 54.595249420557245,
+                lng: 22.208191675130124,
+                description: ""
+            },
+            {
+                id: 10,
+                name: "Памятник погибшим в годы Первой мировой войны",
+                lat: 54.41108868458424,
+                lng: 22.01290981142605,
+                description: ""
+            }
+        ];
+        
+        // Массив для хранения маркеров
+        const markers = [];
+        
+        // Элементы DOM
+        const pointsList = document.getElementById('points-list');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const closeModal = document.getElementById('close-modal');
+        
+        // Создание маркеров и добавление их на карту
+        points.forEach(point => {
+            // Создание маркера с пользовательской иконкой
+            const marker = L.marker([point.lat, point.lng], {
+                title: point.name,
+                icon: L.divIcon({
+                    html: `<div style="background-color: #2a5298; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">${point.id}</div>`,
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16],
+                    className: 'custom-marker'
+                })
+            }).addTo(map);
+            
+            // Добавление обработчика клика на маркер
+            marker.on('click', () => {
+                showPointDetails(point);
+                highlightPointInList(point.id);
+            });
+            
+            // Сохранение маркера в массиве
+            markers.push(marker);
+            
+            // Добавление точки в список
+            const listItem = document.createElement('li');
+            listItem.className = 'point-item';
+            listItem.dataset.id = point.id;
+            listItem.innerHTML = `
+                <div class="point-title">${point.id}. ${point.name}</div>
+                <div class="point-coords">${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}</div>
+            `;
+            
+            // Добавление обработчика клика на элемент списка
+            listItem.addEventListener('click', () => {
+                showPointDetails(point);
+                highlightPointInList(point.id);
+                
+                // Центрирование карты на выбранной точке
+                map.setView([point.lat, point.lng], 13);
+            });
+            
+            pointsList.appendChild(listItem);
+        });
+        
+        // Функция для отображения деталей точки в модальном окне
+        function showPointDetails(point) {
+            modalTitle.textContent = point.name;
+            modalBody.innerHTML = `
+                <img src="Фото памятников/${point.id}.png" style="float: left; margin-right: 20px; width: 200px;">
+                <p><strong>Координаты:</strong> ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}</p>
+                <p>${point.description}</p>
+                <p style="clear: both;">
+            `;
+            modalOverlay.style.display = 'flex';
+        }
+        
+        // Функция для выделения активной точки в списке
+        function highlightPointInList(pointId) {
+            // Удаляем класс active у всех элементов
+            document.querySelectorAll('.point-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Добавляем класс active к выбранному элементу
+            const activeItem = document.querySelector(`.point-item[data-id="${pointId}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+            }
+        }
+        
+        // Закрытие модального окна при клике на кнопку закрытия
+        closeModal.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+        });
+        
+        // Закрытие модального окна при клике вне его содержимого
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.style.display = 'none';
+            }
+        });
+        
+        // Закрытие модального окна при нажатии клавиши Esc
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modalOverlay.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
