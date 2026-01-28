@@ -4,418 +4,419 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="style.css">
 	<title>Проектная работа</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интерактивная карта с точками</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #f5f5f5;
-        }
-        .container {
-            display: flex;
-            flex: 1;
-            padding: 20px;
-            gap: 20px;
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        #map {
-            flex: 3;
-            border-radius: 12px;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-            z-index: 1;
-        }
-        
-        .points-panel {
-            flex: 1;
-            background-color: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-            max-width: 320px;
-            overflow-y: auto;
-        }
-        
-        .points-panel h2 {
-            color: #1e3c72;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .points-list {
-            list-style: none;
-        }
-        
-        .point-item {
-            padding: 15px;
-            margin-bottom: 12px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #2a5298;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .point-item:hover {
-            background-color: #e9ecef;
-            transform: translateX(5px);
-        }
-        
-        .point-item.active {
-            background-color: #e3f2fd;
-            border-left-color: #2196f3;
-        }
-        
-        .point-title {
-            font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 5px;
-        }
-        
-        .point-coords {
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 700px;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: modalFade 0.3s ease-out;
-        }
-        
-        @keyframes modalFade {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 30px 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 1.8rem;
-            color: #1e3c72;
-            margin: 0;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: #666;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        
-        .close-modal:hover {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .modal-body {
-            padding: 25px 30px;
-            line-height: 1.6;
-            color: #444;
-        }
-        
-        .modal-body p {
-            margin-bottom: 20px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9rem;
-            background-color: #f0f0f0;
-        }
-        
-        @media (max-width: 1024px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .points-panel {
-                max-width: 100%;
-            }
-            
-            #map {
-                height: 60vh;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .modal-content {
-                max-height: 90vh;
-            }
-        }
-    </style>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Интерактивная карта с точками</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+		<style>
+				* {
+						margin: 0;
+						padding: 0;
+						box-sizing: border-box;
+						font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				}
+				
+				body {
+						display: flex;
+						flex-direction: column;
+						height: 100vh;
+						background-color: #f5f5f5;
+				}
+				.container {
+						display: flex;
+						flex: 1;
+						padding: 20px;
+						gap: 20px;
+						max-width: 1600px;
+						margin: 0 auto;
+						width: 100%;
+				}
+				
+				#map {
+						flex: 3;
+						border-radius: 12px;
+						box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+						z-index: 1;
+				}
+				
+				.points-panel {
+						flex: 1;
+						background-color: white;
+						border-radius: 12px;
+						padding: 25px;
+						box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+						max-width: 320px;
+						overflow-y: auto;
+				}
+				
+				.points-panel h2 {
+						color: #392175;
+						margin-bottom: 20px;
+						padding-bottom: 15px;
+						border-bottom: 2px solid #eee;
+				}
+				
+				.points-list {
+						list-style: none;
+				}
+				
+				.point-item {
+						padding: 15px;
+						margin-bottom: 12px;
+						background-color: #f8f9fa;
+						border-radius: 8px;
+						border-left: 4px solid #2a5298;
+						cursor: pointer;
+						transition: all 0.3s ease;
+				}
+				
+				.point-item:hover {
+						background-color: #e9ecef;
+						transform: translateX(5px);
+				}
+				
+				.point-item.active {
+						background-color: #e3f2fd;
+						border-left-color: #2196f3;
+				}
+				
+				.point-title {
+						font-weight: 600;
+						color: #392175;
+						margin-bottom: 5px;
+				}
+				
+				.point-coords {
+						font-size: 0.85rem;
+						color: #666;
+				}
+				
+				.modal-overlay {
+						display: none;
+						position: fixed;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						background-color: rgba(0, 0, 0, 0.7);
+						z-index: 1000;
+						align-items: center;
+						justify-content: center;
+						padding: 20px;
+				}
+				
+				.modal-content {
+						background-color: white;
+						border-radius: 12px;
+						width: 100%;
+						max-width: 700px;
+						max-height: 85vh;
+						overflow-y: auto;
+						box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+						animation: modalFade 0.3s ease-out;
+				}
+				
+				@keyframes modalFade {
+						from { opacity: 0; transform: translateY(-30px); }
+						to { opacity: 1; transform: translateY(0); }
+				}
+				
+				.modal-header {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						padding: 25px 30px 15px;
+						border-bottom: 1px solid #eee;
+				}
+				
+				.modal-title {
+						font-size: 1.8rem;
+						color: #392175;
+						margin: 0;
+				}
+				
+				.close-modal {
+						background: none;
+						border: none;
+						font-size: 2rem;
+						color: #666;
+						cursor: pointer;
+						width: 40px;
+						height: 40px;
+						border-radius: 50%;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						transition: all 0.2s;
+				}
+				
+				.close-modal:hover {
+						background-color: #f5f5f5;
+						color: #333;
+				}
+				
+				.modal-body {
+						padding: 25px 30px;
+						line-height: 1.6;
+						color: #444;
+				}
+				
+				.modal-body p {
+						margin-bottom: 20px;
+						text-align: justify;
+				}
+				
+				footer {
+						text-align: center;
+						padding: 20px;
+						color: #666;
+						font-size: 0.9rem;
+						background-color: #f0f0f0;
+				}
+				
+				@media (max-width: 1024px) {
+						.container {
+								flex-direction: column;
+						}
+						
+						.points-panel {
+								max-width: 100%;
+						}
+						
+						#map {
+								height: 60vh;
+						}
+				}
+				
+				@media (max-width: 768px) {
+						h1 {
+								font-size: 1.8rem;
+						}
+						
+						.modal-content {
+								max-height: 90vh;
+						}
+				}
+		</style>
 </head>
 <body>
 <!-- Верхняя панель-->
 	<div class="navbar">
 		<div class="left-links">
 			<a href="index.html" class="nav-link">Главная страница</a>
-			<a href="Интересные%20факты.html" class="nav-link">Интересные факты</a>
-			<a href="Карта%20памятников.html" class="nav-link">Карта памятников</a>
+			<a href="Список%20памятников.html" class="nav-link">Список памятников</a>
+			<a href="Викторина.html" class="nav-link">Викторина</a>
 		</div>
 		<div class="right-links">
 			<img src="KML logo.jpeg" style="width: auto; height: 50px" class="nav-link">
 		</div>
 	</div>
-    
-    <div class="container">
-        <div id="map"></div>
-        
-        <div class="points-panel">
-            <h2>Точки на карте</h2>
-            <ul class="points-list" id="points-list">
-            </ul>
-        </div>
-    </div>
-    
-    <!-- Модальное окно для отображения описания точки -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="modal-title">Название точки</h2>
-                <button class="close-modal" id="close-modal">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-body">
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        <p>Используется библиотека Leaflet для отображения карт</p>
-    </footer>
+		
+		<div class="container">
+				<div id="map"></div>
+				
+				<div class="points-panel">
+						<h2>Точки на карте</h2>
+						<ul class="points-list" id="points-list">
+						</ul>
+				</div>
+		</div>
+		
+		<!-- Модальное окно для отображения описания точки -->
+		<div class="modal-overlay" id="modal-overlay">
+				<div class="modal-content">
+						<div class="modal-header">
+								<h2 class="modal-title" id="modal-title">Название точки</h2>
+								<button class="close-modal" id="close-modal">&times;</button>
+						</div>
+						<div class="modal-body" id="modal-body">
+						</div>
+				</div>
+		</div>
+		
+		<footer>
+				<p>Используется библиотека Leaflet для отображения карт</p>
+		</footer>
 
-    <script>
-        
-        const map = L.map('map').setView([54.738, 21.028], 8.4);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Массив с данными о точках (координаты, названия, описания)
-        const points = [
-            {
-                id: 1,
-                name: "Захоронение Скаруллен",
-                lat: 54.614002,
-                lng: 22.636029,
-                description: ""
-            },
-            {
-                id: 2,
-                name: "Памятник на кладбище рядом с бывшим немецким посёлком Вальдаукадель в Нестеровском районе",
-                lat: 54.733056,
-                lng: 19.999722,
-                description: ""
-            },
-            {
-                id: 3,
-                name: "Захоронение русских и немецких воинов, погибших в ноябре 1914 — феврале 1915 годов",
-                lat: 54.94997,
-                lng: 22.48997,
-                description: ""
-            },
-            {
-                id: 4,
-                name: "Памятник героям Первой мировой войны",
-                lat: 54.7127108513002,
-                lng: 20.4906815245991,
-                description: ""
-            },
-            {
-                id: 5,
-                name: "Памятник воинам инженерных частей, погибшим в годы Первой мировой войны",
-                lat: 54.721142,
-                lng: 20.548027,
-                description: ""
-            },
-            {
-                id: 6,
-                name: "памятник погибшим в годы Первой мировой войны 1914–1918 годов",
-                lat: 54.502416,
-                lng: 20.096347,
-                description: ""
-            },
-            {
-                id: 7,
-                name: "Памятник «Штыковая атака»",
-                lat: 54.58975362342157,
-                lng: 22.20277269999999,
-                description: ""
-            },
-            {
-                id: 8,
-                name: "Сквер памяти ротмистра В. Б. Бушнёва",
-                lat: 54.94712550898284,
-                lng: 22.49254155047147,
-                description: ""
-            },
-            {
-                id: 9,
-                name: "Памятник павшим воинам 8-го уланского полка",
-                lat: 54.595249420557245,
-                lng: 22.208191675130124,
-                description: ""
-            },
-            {
-                id: 10,
-                name: "Памятник погибшим в годы Первой мировой войны",
-                lat: 54.41108868458424,
-                lng: 22.01290981142605,
-                description: ""
-            }
-        ];
-        
-        // Массив для хранения маркеров
-        const markers = [];
-        
-        // Элементы DOM
-        const pointsList = document.getElementById('points-list');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const closeModal = document.getElementById('close-modal');
-        
-        // Создание маркеров и добавление их на карту
-        points.forEach(point => {
-            // Создание маркера с пользовательской иконкой
-            const marker = L.marker([point.lat, point.lng], {
-                title: point.name,
-                icon: L.divIcon({
-                    html: `<div style="background-color: #2a5298; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">${point.id}</div>`,
-                    iconSize: [32, 32],
-                    iconAnchor: [16, 16],
-                    className: 'custom-marker'
-                })
-            }).addTo(map);
-            
-            // Добавление обработчика клика на маркер
-            marker.on('click', () => {
-                showPointDetails(point);
-                highlightPointInList(point.id);
-            });
-            
-            // Сохранение маркера в массиве
-            markers.push(marker);
-            
-            // Добавление точки в список
-            const listItem = document.createElement('li');
-            listItem.className = 'point-item';
-            listItem.dataset.id = point.id;
-            listItem.innerHTML = `
-                <div class="point-title">${point.id}. ${point.name}</div>
-                <div class="point-coords">${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}</div>
-            `;
-            
-            // Добавление обработчика клика на элемент списка
-            listItem.addEventListener('click', () => {
-                showPointDetails(point);
-                highlightPointInList(point.id);
-                
-                // Центрирование карты на выбранной точке
-                map.setView([point.lat, point.lng], 13);
-            });
-            
-            pointsList.appendChild(listItem);
-        });
-        
-        // Функция для отображения деталей точки в модальном окне
-        function showPointDetails(point) {
-            modalTitle.textContent = point.name;
-            modalBody.innerHTML = `
-                <img src="Фото памятников/${point.id}.png" style="float: left; margin-right: 20px; width: 200px;">
-                <p><strong>Координаты:</strong> ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}</p>
-                <p>${point.description}</p>
-                <p style="clear: both;">
-            `;
-            modalOverlay.style.display = 'flex';
-        }
-        
-        // Функция для выделения активной точки в списке
-        function highlightPointInList(pointId) {
-            // Удаляем класс active у всех элементов
-            document.querySelectorAll('.point-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Добавляем класс active к выбранному элементу
-            const activeItem = document.querySelector(`.point-item[data-id="${pointId}"]`);
-            if (activeItem) {
-                activeItem.classList.add('active');
-            }
-        }
-        
-        // Закрытие модального окна при клике на кнопку закрытия
-        closeModal.addEventListener('click', () => {
-            modalOverlay.style.display = 'none';
-        });
-        
-        // Закрытие модального окна при клике вне его содержимого
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                modalOverlay.style.display = 'none';
-            }
-        });
-        
-        // Закрытие модального окна при нажатии клавиши Esc
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                modalOverlay.style.display = 'none';
-            }
-        });
-    </script>
+		<script>
+				
+				const map = L.map('map').setView([54.738, 21.028], 8.4);
+				
+				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+						attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(map);
+				
+				// Массив с данными о точках (координаты, названия, описания)
+				const points = [
+						{
+								id: 1,
+								name: "Захоронение Скаруллен",
+								lat: 54.614002,
+								lng: 22.636029,
+								description: "На данный момент удалось установить имена 36 воинов бойцов 99-го пехотного Ивангородского полка. Они погибли 4 августа 1914 года в бою под Шталлупененом (сегодня — город Нестеров). Это было первое крупное сражение Восточно-Прусской операции на Восточном фронте Первой мировой войны. Работы по благоустройству захоронения ведутся в рамках нашего историко-культурного проекта «Тысячи имен». «Бойцов, павших в сражении у Шталлупенена, хоронили на военном кладбище не существующей ныне деревни Скаруллен. Интенсивные боевые действия велись здесь в августе и ноябре 1914 г. Захоронение не стоит на учете, поэтому благоустраивается силами энтузиастов», — рассказывает координатор волонтерского движения «Технополиса GS» Валерий Гусаров."
+						},
+						{
+								id: 2,
+								name: "Памятник на кладбище рядом с бывшим немецким посёлком Вальдаукадель в Нестеровском районе",
+								lat: 54.733056,
+								lng: 19.999722,
+								description: "Памятник на кладбище рядом с бывшим немецким посёлком Вальдаукадель в Нестеровском районе. На захоронении установлен немецкий обелиск с надписью: «Вечная слава русским воинам, погибшим в Первой мировой войне. 1914–1918». Захоронение. Здесь покоятся 332 военнослужащих Русской императорской и 361 военнослужащий Германской имперской армий, погибшие в августе — ноябре 1914 года. Поселок Вальдаукадель (в послевоенные годы переименованный в Степное) неоднократно оказывался в зоне боевых действий во время Первой мировой войны. 20 августа 1914 года. В ходе наступления 17-го армейского корпуса германской армии 129-й пехотный полк успешно атаковал 40-ю пехотную дивизию 3-го корпуса 1-й русской армии и сумел потеснить её. 12 сентября 1914 года. 41-й Тильзитско-Мемельский пехотный полк германской армии вёл наступление на позиции 20-го армейского корпуса русской армии. Немцы пытались натиском со стороны Гольдапа через Тольмингкемен на Шталлупенен отрезать отходящую из Восточной Пруссии 1-ю русскую армию. Германские части в этом бою были задержаны, планы немецкого командования были сорваны. В середине ноября 1914 года. 24-й и 48-й бранденбургские полки ландвера держали в районе Вальдаукаделя оборону против наступающих частей 20-го корпуса 10-й русской армии."
+						},
+						{
+								id: 3,
+								name: "Захоронение русских и немецких воинов, погибших в ноябре 1914 — феврале 1915 годов",
+								lat: 54.94997,
+								lng: 22.48997,
+								description: "Первая мировая война не обошла Лазденен стороной. Бои за него начались с декабря 1914 г. — января 1915 г. На старом церковном кладбище в Лазденене были похоронены 157 русских (военнослужащие пехотного полка № 70, резервного пехотного полка № 258, кирасирского полка № 3, уланского полка № 8, конноегерского полка № 10, ландверного полка № 48, пехотных полков № 44, 45 и других подразделений ) и 128 немецких воинов. В 1997–1998 гг. памятник был восстановлен предпринимателем Отто Белайтом Над могилой русских солдат установлен восьмиконечный православный крест с выбитой эпитафией: «157 unbekannte russische Kriger 1914-1915» (157 неизвестным русским солдатам). Над могилой немецких солдат - лютеранский крест на постаменте из тёсанных гранитных камней. В постамент была вмурована плита с рельефом, изображавшим кавалеристов (утрачена после 1945 гг.). На кресте надпись на немецком языке: «Nicht umsonst 1914-1918» («Не напрасно 1914-1918»)."
+						},
+						{
+								id: 4,
+								name: "Памятник героям Первой мировой войны",
+								lat: 54.7127108513002,
+								lng: 20.4906815245991,
+								description: "Памятник героям Первой мировой войны — установлен 30 мая 2014 года по случаю столетия начала войны. Расположение: сквер у Астрономического бастиона, на пересечении Гвардейского проспекта и Горной улицы. Три бронзовые скульптуры на высоком постаменте, олицетворяющие представителей различных сословий, участвовавших в войне — дворянина-офицера, разночинца-прапорщика и крестьянина-солдата. Высота памятника11 метров. В верхней части: слова «Благодарная Россия героям Первой мировой войны». Автор: народный художник Российской Федерации Салават Щербаков"
+						},
+						{
+								id: 5,
+								name: "Памятник воинам инженерных частей, погибшим в годы Первой мировой войны",
+								lat: 54.721142,
+								lng: 20.548027,
+								description: "Памятник воинам инженерных частей, погибшим в годы Первой мировой войны, был установлен в Кёнигсберге на территории Радзивилловских казарм в 1923 г.	Здесь дислоцировался 1-й сапёрный батальон «Князь Радзивилл». По штатному расписанию 1914 г. батальон входил в состав 1-го армейского корпуса. Памятник является объектом культурного наследия местного (муниципального) значения (Постановление Правительства Калининградской области	от 23 марта 2007 г. № 132). Памятник представляет собой четырёхугольную пирамиду высотой 4,4 м. На лицевой стороне пирамиды в кладку вмонтирован полукруглый барельеф «Умирающий воин» работы скульптора Пауля Борхерта (1868-1930), под ним – мемориальная плита в форме трапеции с эпитафией на немецком языке: «Unseren gefallenen Kameraden 1914-1918» («Нашим погибшим товарищам 1914-1918»). На тыльной стороне пирамиды укреплена памятная доска с наименованиями воинских частей. В верхней части лицевой стороны пирамиды имеется углубление от некоего утерянного элемента. В августе-сентябре 2013 г. реставраторами из санкт-петербургской мастерской «Наследие» были проведены ремонтно-реставрационные работы, в частности воссозданы все элементы барельефа «Умирающий воин»."
+						},
+						{
+								id: 6,
+								name: "памятник погибшим в годы Первой мировой войны 1914–1918 годов",
+								lat: 54.502416,
+								lng: 20.096347,
+								description: "Установлен в 1920-х годах около кирхи, которая в настоящее время полностью разрушена. В 1925 году у северо-западной стороны кирхи установили мемориальный камень — валун размером 3,0 на 1,6 на 2,0 м с выбитой эпитафией на немецком языке: «Die Heimat den Helden 1914-1918» («Родина героям 1914–1918») и изображением креста. Статус: объект культурного наследия местного (муниципального) значения (Постановление Правительства Калининградской области от 23 марта 2007 года №132). Современное состояние: памятник частично разрушен, зарос травой и кустарником, надпись на валуне читается плохо."
+						},
+						{
+								id: 7,
+								name: "Памятник «Штыковая атака»",
+								lat: 54.58975362342157,
+								lng: 22.20277269999999,
+								description: "работы скульпторов Народного художника России Владимира Александровича Суровцева и Данилы Суровцева, архитекторов Владимира Сягина, Олега Сягина и Дима Охрименко торжественно открыт в Гусеве 24 августа 2014 года. Памятник представляет скульптуру унтер-офицера Российской императорской армии, идущего в штыковую атаку. В верхней части постамента выполнены герб России и надпись: \"Воинам Великой войны\". В нижней наклонной части - схема Гумбинненского сражения и надпись: \"Гумбинненское сражение 19-20 (6-7) августа 1914 года\". Место установки памятника выбрано не случайно. Во времена Первой Мировой войны город носил название Гумбиннен. Рядом с ним и произошло сражение, в котором русские воины сумели разбить превосходящие силы противника. Памятник представляет собой скульптуру бегущего в атаку русского солдата, держащего в руках винтовку-трёхлинейку с примкнутым к ней штыком. В верхней части постамента помещены герб России и надпись «Воинам Великой войны»; а в нижней – дата и схема Гумбинненского сражения, первого победоносного боя русской армии, исход которого во многом решили штыковые атаки русской пехоты, заставлявшие в ужасе бежать прусских гвардейцев Притвица и Макензена."
+						},
+						{
+								id: 8,
+								name: "Сквер памяти ротмистра В. Б. Бушнёва",
+								lat: 54.94712550898284,
+								lng: 22.49254155047147,
+								description: "Сквер посвящён памяти ротмистра Бушнёва, который погиб 15 декабря 1914 года в бою при взятии моста через реку Инстр. На вымощенной плиткой площадке установлен большой камень. На нём укреплена металлическая табличка с надписью: \"Сквер назван в память о ротмистре В.Б. Бушневе командире эскадрона 3-го уланского Смоленского полка, погибшем 15 декабря 1914 года в боях за город Лазденен\". Вокруг памятника полукругом высажены туи.Памятник открыт в 2012. Владимир Бенедиктович Бушнёв — ротмистр, командир 3-го эскадрона 3-го уланского Смоленского полка, погибший 15 декабря 1914 года в бою за мост через реку Инструч.	Во время сражения Бушнёв повёл в атаку на немецкие пулемёты спешившихся кавалеристов. Мост был взят, но ротмистра смертельно ранили."
+						},
+						{
+								id: 9,
+								name: "Памятник павшим воинам 8-го уланского полка",
+								lat: 54.595249420557245,
+								lng: 22.208191675130124,
+								description: "Памятник уланам. После первой мировой войны 8 уланский полк, 3 эскадрон которого был расквартирован в Шталлупенине, был расформирован. Территория, где был расквартирован эскадрон была передана городу. Решением городской управы на территории был открыт городской стадион. В память о 8 уланском полку в 1928 году на стадионе был открыт памятник, представляющий собой солдатскую каску. Каменная каска была установлена на постаменте. На памятной табличке было написано: \"Создан в память 8 уланского полка имени графа Дона (Восточная Пруссия) Сформирован: 1812 г. Расформирован: 1920 г. \"Памятные доски с лицевой и тыльной сторон постамента утрачены. 05.06.1812г. - полковником графом Виттом из способных к казачьей службе помещичьих и других состояний людей Киевской губ. и Каменец-Подольского, Винницкого, Брацлавского, Гайсинского и Балтского уездов сформирован 1-й Украинский казачий полк в составе 8-ми эскадронов. Входил в состав 8-й кавалерийской дивизии. Квартира: г. Бельцы (07.1914г.) 6 эскадронов 4 эскадрона с 01.1917г. Награды: 1. Полковой штандарт Георгиевский с надписями: \"1812-1912\" и \"За отличие в Турецкую войну 1877 и 1878 годов\". С Александровской юбилейной лентой. Пожалован 5.06.1912 г. взамен Георгиевского штандарта с такой же надписью, пожалованного 17.04.1878 г. (Выс. пр.). 2. Шесть серебряных труб с надписью: \"За отличие в войне с Французами 1812, 1813 и 1814 годов\". Пожалован 1-му Украинскому казачьему полку 30.08.1814 г. Переданы 3-му Украинскому уланскому полку 30.07.1818 г. 3. Знаки на шапки с надписью: \"За отличие\". Пожалованы 6.12.1831 г. Новомиргородскому уланскому полку за подвиги при усмирении Польского мятежа 1831 г. 19(01).07(08).1914 – в составе дивизии, по мобилизации, вошел в состав 7-й армии. 14(27).08.1814 - в составе дивизии отправлен на фронт в 4-ю армию Юго-Западного фронта. 09.1914 - в составе дивизии в Варшавском отряде Северо-Западного фронта. 10.1914 - в составе дивизии во 2-й армии Северо-Западного фронта. 22(04).12(01).1916(1917)(?) - в составе дивизии в Дунайском отряде (Румынский фронт). 01.1917 – два спешенных эскадрона выделены на формирование 8-го кавалерийского стрелкового полка при дивизии."
+						},
+						{
+								id: 10,
+								name: "Памятник погибшим в годы Первой мировой войны",
+								lat: 54.41108868458424,
+								lng: 22.01290981142605,
+								description: "Установлен в центре круглой в плане площадки, обнесённой парапетом из тёсаного камня. Представляет собой массивный ступенчатый обелиск высотой 6 м из тёсаного камня с мемориальной доской. К памятнику ведёт каменная лестница. Оригинальная мемориальная доска утрачена и заменена на новую с надписью на русском языке: «В память о воинах, погибших в годы Первой мировой войны». Статус: памятник — объект культурного наследия местного (муниципального) значения (Постановление Правительства Калининградской области от 23 марта 2007 года №132)."
+						}
+				];
+				
+				// Массив для хранения маркеров
+				const markers = [];
+				
+				// Элементы DOM
+				const pointsList = document.getElementById('points-list');
+				const modalOverlay = document.getElementById('modal-overlay');
+				const modalTitle = document.getElementById('modal-title');
+				const modalBody = document.getElementById('modal-body');
+				const closeModal = document.getElementById('close-modal');
+				
+				// Создание маркеров и добавление их на карту
+				points.forEach(point => {
+						// Создание маркера с пользовательской иконкой
+						const marker = L.marker([point.lat, point.lng], {
+								title: point.name,
+								icon: L.divIcon({
+										html: `<div style="background-color: #2a5298; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">${point.id}</div>`,
+										iconSize: [32, 32],
+										iconAnchor: [16, 16],
+										className: 'custom-marker'
+								})
+						}).addTo(map);
+						
+						// Добавление обработчика клика на маркер
+						marker.on('click', () => {
+								showPointDetails(point);
+								highlightPointInList(point.id);
+						});
+						
+						// Сохранение маркера в массиве
+						markers.push(marker);
+						
+						// Добавление точки в список
+						const listItem = document.createElement('li');
+						listItem.className = 'point-item';
+						listItem.dataset.id = point.id;
+						listItem.innerHTML = `
+								<div class="point-title">${point.id}. ${point.name}</div>
+								<div class="point-coords">${point.lat.toFixed(4)}, ${point.lng.toFixed(4)}</div>
+						`;
+						
+						// Добавление обработчика клика на элемент списка
+						listItem.addEventListener('click', () => {
+								showPointDetails(point);
+								highlightPointInList(point.id);
+								
+								// Центрирование карты на выбранной точке
+								map.setView([point.lat, point.lng], 13);
+						});
+						
+						pointsList.appendChild(listItem);
+				});
+				
+				// Функция для отображения деталей точки в модальном окне
+				function showPointDetails(point) {
+						modalTitle.textContent = point.name;
+						modalBody.innerHTML = `
+								<img src="./Изображения%20памятников/${point.id}.png" style="float: left; margin-right: 20px; width: 300px;">
+								<p><strong>Координаты:</strong> ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}</p>
+								<p>${point.description}</p>
+								<p style="clear: both;">
+						`;
+						modalOverlay.style.display = 'flex';
+				}
+				
+				// Функция для выделения активной точки в списке
+				function highlightPointInList(pointId) {
+						// Удаляем класс active у всех элементов
+						document.querySelectorAll('.point-item').forEach(item => {
+								item.classList.remove('active');
+						});
+						
+						// Добавляем класс active к выбранному элементу
+						const activeItem = document.querySelector(`.point-item[data-id="${pointId}"]`);
+						if (activeItem) {
+								activeItem.classList.add('active');
+						}
+				}
+				
+				// Закрытие модального окна при клике на кнопку закрытия
+				closeModal.addEventListener('click', () => {
+						modalOverlay.style.display = 'none';
+				});
+				
+				// Закрытие модального окна при клике вне его содержимого
+				modalOverlay.addEventListener('click', (e) => {
+						if (e.target === modalOverlay) {
+								modalOverlay.style.display = 'none';
+						}
+				});
+				
+				// Закрытие модального окна при нажатии клавиши Esc
+				document.addEventListener('keydown', (e) => {
+						if (e.key === 'Escape') {
+								modalOverlay.style.display = 'none';
+						}
+				});
+		</script>
 </body>
 </html>

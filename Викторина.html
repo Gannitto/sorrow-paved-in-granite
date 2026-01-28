@@ -11,8 +11,8 @@
 	<div class="navbar">
 		<div class="left-links">
 			<a href="index.html" class="nav-link">Главная страница</a>
-			<a href="Интересные%20факты.html" class="nav-link">Интересные факты</a>
 			<a href="Карта%20памятников.html" class="nav-link">Карта памятников</a>
+			<a href="Список%20памятников.html" class="nav-link">Список памятников</a>
 		</div>
 		<div class="right-links">
 			<img src="KML logo.jpeg" style="width: auto; height: 50px" class="nav-link">
@@ -24,38 +24,30 @@
 	<br>
 	<br>
 
-	<!-- Кнопка для перезапуска викторины -->
 
 
 	<div class="content" id="startScreen">
 		<h1>Викторина</h1>
-		<p>Ответьте на следующие вопросы по теме Калининградской области, чтобы проверить свои знания!</p>
-		<p>*Все вопросы составлялись по данным 2024 года</p>
+		<p>Ответьте на следующие вопросы по теме Первой Мировой войны, чтобы проверить свои знания на эту тему!</p>
 		<button class="button" onclick="startGame()">Начать викторину</button>
 	</div>
 
 	<!-- Основной контент -->
 
-    <div class="content" id="gameContainer">
+	<div class="content" id="gameContainer">
 
-        <h1 id="question-num"></h1>
-        <p id="question"></p>
-
-        <div id="images_for_7" class="image-container">
-            <img src="1.png" width="100" height="150">
-            <img src="2.png" width="100" height="150">
-            <img src="3.png" width="100" height="150">
-        </div>
-        <div class="answers" id="answers">
-            <button class="button" onclick="checkAnswer(0)">Вариант 1</button>
-            <button class="button" onclick="checkAnswer(1)">Вариант 2</button>
-            <button class="button" onclick="checkAnswer(2)">Вариант 3</button>
-        </div>
-        <div class="result" id="result"></div>
-        <div class="next-button" id="nextButton">
-            <button class="button" onclick="nextQuestion()">Продолжить</button>
-        </div>
-    </div>
+			<h1 id="question-num"></h1>
+			<p id="question"></p>
+			<div class="answers" id="answers">
+				<button class="button" onclick="checkAnswer(0)">Вариант 1</button>
+				<button class="button" onclick="checkAnswer(1)">Вариант 2</button>
+						<button class="button" onclick="checkAnswer(2)">Вариант 3</button>
+				</div>
+				<div class="result" id="result"></div>
+				<div class="next-button" id="nextButton">
+						<button class="button" onclick="nextQuestion()">Продолжить</button>
+				</div>
+		</div>
 
 	<div class="content" id="EndScreen">
 		<h1>Игра завершена, спасибо за участние!</h1>
@@ -70,30 +62,30 @@
 		// Массив вопросов и ответов
 
 		const questions = [
-			{ text: "Сколько городов в Калининградской области?", correct: 0 },
-			{ text: "Какая площадь у Калининградской области?", correct: 2 },
-			{ text: "Какое население Калининградской области?", correct: 2 },
-			{ text: "В каком году Куршскую Косу признали национальным парком?", correct: 0 },
-			{ text: "Сколько немецких фортов в Калининградской области?", correct: 1 },
-			{ text: "В каком городе находится карьер по добыче янтаря?", correct: 0 },
-			{ text: "Какой герб у Калининградской области?", correct: 0 },
-            { text: "Какой философ является одним из символов Калининградской области?", correct: 1 },
-            { text: "Какая длина Куршской Косы?", correct: 2 },
-            { text: "Сколько заливов в Калининградской области?", correct: 1 }
+			{ text: "Какое событие считается непосредственным поводом к началу войны?", correct: 0 },
+			{ text: "Какой фронт, по мнению многих историков, был самым кровавым и бессмысленным из-за тактики позиционной «окопной» войны?", correct: 2 },
+			{ text: "Какая битва 1916 года стала одним из самых кровопролитных сражений в истории человечества и символом ужасов войны?", correct: 1 },
+			{ text: "Какая страна вступила в войну в 1917 году на стороне Антанты, что решительно изменило баланс сил?", correct: 1 },
+			{ text: "Как назывался тайный план германского генштаба по быстрому разгрому Франции до переброски сил Россией?", correct: 0 },
+			{ text: "Какое новое оружие было впервые массово применено Германией в 1915 году, нарушив Гаагские конвенции?", correct: 1 },
+			{ text: "Какая из этих стран была частью блока Центральных держав (Четверного союза)?", correct: 1 },
+			{ text: "Как назывался мирный договор 1918 года, по которого Советская Россия вышла из войны на крайне невыгодных условиях?", correct: 1 },
+			{ text: "Какая крупная морская битва войны (1916 год) завершилась тактической ничьей, но стратегической победой Великобритании?", correct: 0 },
+			{ text: "В каком городе было подписано перемирие, завершившее боевые действия 11 ноября 1918 года?", correct: 2 }
 
 		];
 
 		const answers = [
-			["22", "31", "16"],
-			["7 000 км²", "40 000 км²", "15 100 км²"],
-			["1 800 000 человек", "60 000 человек", "1 100 000 человек"],
-			["1987", "2003", "1993"],
-			["21", "15", "8"],
-			["Янтарный", "Балтийск", "Советск"],
-			["1", "2", "3"],
-            ["Карл Маркс", "Иммануил Кант", "Юрген Хабермас"],
-            ["160 км", "52 км", "98 км"],
-            ["3", "2", "5"]
+			["Убийство эрцгерцога Франца Фердинанда", "Начало Брусиловского прорыва", "Потопление парохода «Лузитания»"],
+			["Восточный фронт", "Итальянский фронт", "Западный фронт"],
+			["Битва при Камбре", "Верденская мясорубка", "Битва при Сомме"],
+			["Османская империя", "США", "Болгария"],
+			["План Шлиффена", "План Барбаросса", "План «17»"],
+			["Танки", "Боевые отравляющие газы (хлор)", "Советск"],
+			["Великобритания", "Австро-Венгрия", "Сербия"],
+			["Версальский мир", "Брест-Литовский мир", "Компьенское перемирие"],
+			["Ютландское сражение", "Сражение у Коронеля", "Сражение при Фолклендах"],
+			["Париж, Франция", "Берлин, Германия", "Компьенский лес, Франция"]
 		];
 
 		let currentIndex = 0;
@@ -109,8 +101,6 @@
 			document.getElementById("question-num").textContent = `Вопрос ${currentIndex + 1}`;
 			document.getElementById("question").textContent = questions[currentIndex].text;
 			const buttons = document.querySelectorAll(".answers button");
-			document.getElementById("images_for_7").style.display = "none";
-			if (currentIndex === 6) { document.getElementById("images_for_7").style.display = "block" }
 
 			buttons.forEach((btn, index) => {
 				btn.textContent = answers[currentIndex][index]

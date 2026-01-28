@@ -7,17 +7,17 @@ body {
 	margin: 0;
 	padding: 0;
 	background-image: url('KML logo.jpeg');
-  background-size: cover; /* или contain, или конкретные размеры */
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed; /* фиксированный фон при прокрутке */
-  background-color: #f0f0f0; /* цвет фона, пока грузится изображение */
+	background-size: cover; /* или contain, или конкретные размеры */
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed; /* фиксированный фон при прокрутке */
+	background-color: #f0f0f0; /* цвет фона, пока грузится изображение */
 }
 
 h1 {
 	font-size: 24px;
 	margin-bottom: 20px;
-	color: #000f;
+	color: #392175;
 }
 
 p {
@@ -32,7 +32,7 @@ p {
 	padding: 20px;
 	background-color: #99ccff;
 	border-radius: 10px;
-	border: 4px solid #0094ff;
+	border: 4px solid #392175;
 }
 
 	.content h1 {
@@ -50,19 +50,19 @@ p {
 /* Контейнер для текста с изображением */
 .content-img {
 	display: flex;
-  align-items: flex-start; /* или center, если нужно выровнять по вертикали */
-  gap: 20px; /* расстояние между картинкой и текстом */
+	align-items: flex-start; /* или center, если нужно выровнять по вертикали */
+	gap: 20px; /* расстояние между картинкой и текстом */
 }
 	.content-img img {
-  max-width: 200px; /* задайте нужную ширину */
-  height: auto;
+	max-width: 200px; /* задайте нужную ширину */
+	height: auto;
 }
 
 /* Подвал */
 footer {
 	background-color: #333333;
 	padding: 10px;
-	border-top: 4px solid #00aa00;
+	border-top: 4px solid #392175;
 	margin-top: 40px;
 }
 
@@ -82,7 +82,7 @@ footer {
 	justify-content: space-between;
 	align-items: center;
 	z-index: 100;
-	border-bottom: 4px solid #0094ff;
+	border-bottom: 4px solid #392175;
 }
 
 .left-links {
@@ -123,7 +123,7 @@ footer {
 	font-size: 16px;
 	text-decoration: none;
 	border-radius: 8px;
-	border: 4px solid #0094ff;
+	border: 4px solid #392175;
 	box-shadow: 0 4px #333333;
 }
 
@@ -142,41 +142,41 @@ footer {
 
 /* Стиль контейнера карты */
 #map {
-    width: 100%;
-    height: 100vh;
-    }
+		width: 100%;
+		height: 100vh;
+		}
 
-    /* Стили модального окна (оверлея) */
-    .modal-overlay {
-        display: none; /* Скрыто по умолчанию */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-    }
+		/* Стили модального окна (оверлея) */
+		.modal-overlay {
+				display: none; /* Скрыто по умолчанию */
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 9999;
+				justify-content: center;
+				align-items: center;
+		}
 
-    .modal-content {
-        background: white;
-        padding: 30px;
-        border-radius: 8px;
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
+		.modal-content {
+				background: white;
+				padding: 30px;
+				border-radius: 8px;
+				max-width: 500px;
+				width: 90%;
+				position: relative;
+				box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+		}
 
-    .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #333;
-    }
+		.close-btn {
+				position: absolute;
+				top: 10px;
+				right: 15px;
+				font-size: 24px;
+				cursor: pointer;
+				color: #333;
+		}
 
-    h2 { margin-top: 0; }
+		h2 { margin-top: 0; }
