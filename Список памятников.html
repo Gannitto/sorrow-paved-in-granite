@@ -105,10 +105,10 @@
 								description: "Установлен в центре круглой в плане площадки, обнесённой парапетом из тёсаного камня. Представляет собой массивный ступенчатый обелиск высотой 6 м из тёсаного камня с мемориальной доской. К памятнику ведёт каменная лестница. Оригинальная мемориальная доска утрачена и заменена на новую с надписью на русском языке: «В память о воинах, погибших в годы Первой мировой войны». Статус: памятник — объект культурного наследия местного (муниципального) значения (Постановление Правительства Калининградской области от 23 марта 2007 года №132)."
 						}
 				];
-	const pointsList = document.getElementById('points-list');
+	const pointsList = document.getElementById("points-list");
 	points.forEach(point => {
-						const listItem = document.createElement('li');
-						listItem.className = 'point-item';
+						const listItem = document.createElement("li");
+						listItem.className = "point-item";
 						listItem.dataset.id = point.id;
 						listItem.innerHTML = `
 								<div class="content">

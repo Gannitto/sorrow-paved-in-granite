@@ -2,11 +2,11 @@
 body {
 	background-color: #ffffff;
 	color: #ffffff;
-	font-family: 'Press Start 2P', cursive;
+	font-family: "Press Start 2P", cursive;
 	text-align: center;
 	margin: 0;
 	padding: 0;
-	background-image: url('KML logo.jpeg');
+	background-image: url("Background.jpg");
 	background-size: cover; /* или contain, или конкретные размеры */
 	background-position: center center;
 	background-repeat: no-repeat;
